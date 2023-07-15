@@ -2,3 +2,4 @@
 
 - Designed Use Case, ER, Class and Sequence diagrams for the project
 - Completed the frontend for Login and Signup pages
+- Added Product upload, Product view and Cart pages
