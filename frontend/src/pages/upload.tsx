@@ -2,9 +2,15 @@ import Head from "next/head";
 import { useState } from "react";
 import axios from "axios";
 
-export default function Example(): any {
+export default function Upload(): any {
 
-    const [data, setData] = useState({});
+    const [data, setData] = useState({
+        name: "",
+        description: "",
+        price: 0,
+        category: ""
+    });
+
     const [file, setFile] = useState(null);
 
     const handleChange = (e: any) => {
@@ -20,7 +26,28 @@ export default function Example(): any {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        await axios.put('https://c5jbz4fjy6.execute-api.ap-south-1.amazonaws.com/v1/mini-project-64/up3.jpg', file);
+        await axios.put(`https://c5jbz4fjy6.execute-api.ap-south-1.amazonaws.com/v1/mini-project-64/${data.name}.jpg`, file);
+
+        let post = {
+            productName: data.name,
+            productDescription: data.description,
+            productPrice: data.price,
+            category: data.category,
+            fileLocation: `https://mini-project-64.s3.ap-south-1.amazonaws.com/${data.name}.jpg`,
+            sellerId: window.sessionStorage.getItem("id")
+        }
+
+        alert(" cat " + post.category + " des " + post.productDescription + " name " + post.productName + " pri " + post.productPrice + " loc " + post.fileLocation + " id " + post.sellerId);
+
+        let res = await axios.post("http://localhost:8080/product/add", post);
+
+        if (res.data) {
+            alert("Product Added Successfully");
+            window.location.href = "/sellerHome";
+        }
+        else {
+            alert("Product Addition Failed");
+        }
     }
 
     return (
@@ -85,7 +112,7 @@ export default function Example(): any {
                                     <div className="mt-2">
                                         <textarea
                                             id="description"
-                                            name="descritpion"
+                                            name="description"
                                             autoComplete="description"
                                             onChange={handleChange}
                                             required
@@ -120,16 +147,16 @@ export default function Example(): any {
 
                                 <div>
                                     <label
-                                        htmlFor="name"
+                                        htmlFor="category"
                                         className="block text-sm font-medium leading-6 text-gray-900"
                                     >
                                         Product Category
                                     </label>
                                     <div className="mt-2">
                                         <select
-                                            id="type"
-                                            name="type"
-                                            autoComplete="type"
+                                            id="category"
+                                            name="category"
+                                            autoComplete="category"
                                             onChange={handleChange}
                                             required
                                             className="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

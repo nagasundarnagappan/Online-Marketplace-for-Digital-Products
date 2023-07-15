@@ -1,15 +1,59 @@
+import axios from "axios";
 import Head from "next/head";
 import { useState } from "react";
 
-export default function Example(): any {
+export default function Signup(): any {
 
-    const [data, setData] = useState({});
+    const [data, setData] = useState({
+        type: "",
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
 
     const handleChange = (e: any) => {
         setData({
             ...data,
             [e.target.name]: e.target.value,
         });
+    }
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+
+        if (data.password.length < 8) {
+            alert("Password must be at least 8 characters long");
+            return;
+        }
+
+        let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/;
+
+        if (!regex.test(data.password)) {
+            alert("Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character");
+            return;
+        }
+
+        if (data.password !== data.confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+
+        let post = {
+            name: data.name,
+            email: data.email,
+            password: data.password,
+        }
+
+        let res = await axios.post(`http://localhost:8080/${data.type}/signup`, post);
+
+        if (res.data) {
+            alert("Signup successful");
+            window.location.href = `/${data.type}Home`;
+        }
+        else {
+            alert("Signup failed");
+        }
     }
 
     return (
@@ -131,7 +175,7 @@ export default function Example(): any {
                                 <div>
                                     <div className="flex items-center justify-between">
                                         <label
-                                            htmlFor="conPassword"
+                                            htmlFor="confirmPassword"
                                             className="block text-sm font-medium leading-6 text-gray-900"
                                         >
                                             Confirm Password
@@ -139,10 +183,10 @@ export default function Example(): any {
                                     </div>
                                     <div className="mt-2">
                                         <input
-                                            id="conPassword"
-                                            name="conPassword"
+                                            id="confirmPassword"
+                                            name="confirmPassword"
                                             type="password"
-                                            autoComplete="current-password"
+                                            autoComplete="confirmPassword"
                                             onChange={handleChange}
                                             required
                                             className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -153,6 +197,7 @@ export default function Example(): any {
                                 <div>
                                     <button
                                         type="submit"
+                                        onClick={handleSubmit}
                                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         Sign Up

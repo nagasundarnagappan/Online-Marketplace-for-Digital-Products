@@ -1,15 +1,41 @@
 import Head from "next/head";
 import { useState } from "react";
+import axios from "axios";
 
-export default function Example(): any {
+export default function Login(): any {
 
-    const [data, setData] = useState({});
+    const [data, setData] = useState({
+        type: "",
+        email: "",
+        password: "",
+    });
 
     const handleChange = (e: any) => {
         setData({
             ...data,
             [e.target.name]: e.target.value,
         });
+    }
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+
+        let post = {
+            email: data.email,
+            password: data.password
+        }
+
+        let res = await axios.post(`http://localhost:8080/${data.type}/login`, post);
+
+        if (res.data.status) {
+            window.sessionStorage.setItem("id", res.data.id);
+            alert(res.data.message);
+            window.location.href = `/${data.type}Home`;
+            alert(window.sessionStorage.getItem("id"));
+        }
+        else {
+            alert(res.data.message);
+        }
     }
 
     return (
@@ -37,6 +63,30 @@ export default function Example(): any {
                             <h2 className="mt-4 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                                 Sign in to your account
                             </h2>
+                        </div>
+
+                        <div>
+                            <label
+                                htmlFor="type"
+                                className="block text-sm font-medium leading-6 text-gray-900"
+                            >
+                                Select Account Type
+                            </label>
+                            <div className="mt-2">
+                                <select
+                                    id="type"
+                                    name="type"
+                                    autoComplete="type"
+                                    onChange={handleChange}
+                                    required
+                                    className="block w-full rounded-md border-0 px-2 py-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                >
+                                    <option selected value="buyer">
+                                        Buyer
+                                    </option>
+                                    <option value="seller">Seller</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -94,6 +144,7 @@ export default function Example(): any {
                                 <div>
                                     <button
                                         type="submit"
+                                        onClick={handleSubmit}
                                         className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                                     >
                                         Sign in
@@ -113,7 +164,7 @@ export default function Example(): any {
                         </div>
                     </div>
                 </div>
-            </main>
+            </main >
         </>
     );
 }

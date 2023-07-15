@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import CartItems from "./cartItems";
 
 export default function Cart() {
-    const list = [{ name: "hello", price: 250.2, file: "https://mini-project-64.s3.ap-south-1.amazonaws.com/up.jpg" }, { name: "hello", price: 250.2, file: "https://mini-project-64.s3.ap-south-1.amazonaws.com/up.jpg" }, { name: "hello", price: 250.2, file: "https://mini-project-64.s3.ap-south-1.amazonaws.com/up.jpg" }, { name: "hello", price: 250.2, file: "https://mini-project-64.s3.ap-south-1.amazonaws.com/up.jpg" }];
+    const list = [{ name: "hello", price: 250.2, file: "https://mini-project-64.s3.ap-south-1.amazonaws.com/up.jpg" }, { name: "hello", price: 250.2, file: "https://mini-project-64.s3.ap-south-1.amazonaws.com/up.jpg" }, { name: "hello", price: 250.2, file: "https://mini-project-64.s3.ap-south-1.amazonaws.com/up.jpg" }, { name: "hello", price: 250.2, file: "https://mini-project-64.s3.ap-south-1.amazonaws.com/up.jpg" }, { name: "hello", price: 250.2, file: "https://mini-project-64.s3.ap-south-1.amazonaws.com/up.jpg" }];
 
     const [subTotalPrice, setSubTotalPrice] = useState(0);
     const [discount, setDiscount] = useState(0);

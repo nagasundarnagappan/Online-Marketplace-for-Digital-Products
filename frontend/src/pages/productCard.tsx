@@ -4,15 +4,15 @@ export default function ProductCard(props: any) {
         <>
             <div className="relative m-10 flex w-full max-w-xs flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
                 <a className="relative mx-3 mt-3 flex h-60 overflow-hidden rounded-xl" href="#">
-                    <img className="object-cover" src={props.props.file} alt="product image" />
+                    <img className="object-cover" src={props.props.fileLocation} alt="product image" />
                 </a>
                 <div className="mt-4 px-5 pb-5">
                     <a href="#">
-                        <h5 className="text-xl tracking-tight text-slate-900">{props.props.name}</h5>
+                        <h5 className="text-xl tracking-tight text-slate-900">{props.props.productName}</h5>
                     </a>
                     <div className="mt-2 mb-5 flex items-center justify-between">
                         <p>
-                            <span className="text-3xl font-bold text-slate-900">&#8377;{props.props.price}</span>
+                            <span className="text-3xl font-bold text-slate-900">&#8377;{props.props.productPrice}</span>
                             {/* <span className="text-sm text-slate-900 line-through">$699</span> */}
                         </p>
                     </div>
