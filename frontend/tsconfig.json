@@ -17,6 +17,12 @@
     "incremental": true,
     "noUncheckedIndexedAccess": true,
     "baseUrl": ".",
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noImplicitOverride": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
     "paths": {
       "~/*": ["./src/*"]
     }
