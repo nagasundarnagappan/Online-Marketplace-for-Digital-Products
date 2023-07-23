@@ -15,12 +15,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "seller")
-public class Seller {
+@Table(name = "buyer")
+public class Buyer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sellerId;
+    private int buyerId;
 
     private String name;
 
@@ -28,4 +28,5 @@ public class Seller {
 
     private String password;
 
+    private int cartId;
 }

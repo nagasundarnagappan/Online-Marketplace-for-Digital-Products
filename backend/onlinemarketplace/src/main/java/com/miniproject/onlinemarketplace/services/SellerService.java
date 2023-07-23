@@ -29,4 +29,8 @@ public class SellerService {
 
         return new int[] { 2, -1 };
     }
+
+    public Seller getSellerById(int id) {
+        return sellerRepo.findById(id).get();
+    }
 }

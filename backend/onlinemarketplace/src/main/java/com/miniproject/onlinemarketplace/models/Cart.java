@@ -1,5 +1,7 @@
 package com.miniproject.onlinemarketplace.models;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,17 +17,19 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "seller")
-public class Seller {
+@Table(name = "cart")
+public class Cart {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sellerId;
+    private int cartId;
 
-    private String name;
+    private int buyerId;
 
-    private String email;
+    private List<Integer> products;
 
-    private String password;
-
+    public Cart(int buyerId, List<Integer> products) {
+        this.buyerId = buyerId;
+        this.products = products;
+    }
 }

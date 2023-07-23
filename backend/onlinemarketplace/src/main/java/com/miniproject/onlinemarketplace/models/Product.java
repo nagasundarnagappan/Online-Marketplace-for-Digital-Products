@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Products")
+@Table(name = "product")
 public class Product {
 
     @Id
@@ -34,10 +34,5 @@ public class Product {
 
     private int sellerId;
 
-    @Override
-    public String toString() {
-        return "Product [productId=" + productId + ", productName=" + productName + ", productDescription="
-                + productDescription + ", productPrice=" + productPrice + ", category=" + category + ", fileLocation="
-                + fileLocation + ", sellerId=" + sellerId + "]";
-    }
+    private int ownerId;
 }

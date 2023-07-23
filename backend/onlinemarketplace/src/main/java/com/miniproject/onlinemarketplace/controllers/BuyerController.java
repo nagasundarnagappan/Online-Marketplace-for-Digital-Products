@@ -8,22 +8,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.miniproject.onlinemarketplace.models.Seller;
-import com.miniproject.onlinemarketplace.services.SellerService;
+import com.miniproject.onlinemarketplace.models.Buyer;
+import com.miniproject.onlinemarketplace.services.BuyerService;
 import com.miniproject.onlinemarketplace.utility.LoginResponse;
 
 @RestController
 @CrossOrigin(origins = "*")
-public class SellerController {
+public class BuyerController {
 
     @Autowired
-    SellerService sellerService;
+    BuyerService buyerService;
 
-    @PostMapping("/seller/login")
-    public LoginResponse sellerLogin(@RequestBody Seller seller) {
-        int res[] = sellerService.sellerLogin(seller);
+    @PostMapping("/buyer/login")
+    public LoginResponse sellerLogin(@RequestBody Buyer buyer) {
+        int res[] = buyerService.buyerLogin(buyer);
         if (res[0] == 1) {
-            return new LoginResponse(false, "Seller not found", -1);
+            return new LoginResponse(false, "Buyer not found", -1);
         } else if (res[0] == 2) {
             return new LoginResponse(false, "Incorrect password", -1);
         } else {
@@ -31,13 +31,13 @@ public class SellerController {
         }
     }
 
-    @PostMapping("/seller/signup")
-    public boolean sellerSignup(@RequestBody Seller seller) {
-        return sellerService.sellerSignup(seller);
+    @PostMapping("/buyer/signup")
+    public boolean sellerSignup(@RequestBody Buyer buyer) {
+        return buyerService.buyerSignup(buyer);
     }
 
-    @GetMapping("/getseller/{id}")
-    public Seller getSellerById(@PathVariable int id) {
-        return sellerService.getSellerById(id);
+    @GetMapping("/getbuyer/{id}")
+    public Buyer getBuyerById(@PathVariable int id) {
+        return buyerService.getBuyerById(id);
     }
 }
