@@ -8,6 +8,7 @@ import Product from './Components/Product/Product';
 import Home from './Components/Home';
 import BuyerProfile from './Components/Buyer/Profile';
 import SellerProfile from './Components/Seller/Profile';
+import Feedback from './MicroServices/Feedback';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         <Route path='/product/view' element={<Product />} />
         <Route path='/buyer/profile' element={<BuyerProfile />} />
         <Route path='/seller/profile' element={<SellerProfile />} />
+        <Route path='/feedback' element={<Feedback />} />
       </Routes>
     </BrowserRouter>
   )
