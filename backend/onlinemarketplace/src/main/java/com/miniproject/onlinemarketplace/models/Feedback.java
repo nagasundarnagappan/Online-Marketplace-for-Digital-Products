@@ -1,10 +1,10 @@
-package com.miniproject.microservices.models;
+package com.miniproject.onlinemarketplace.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +26,8 @@ public class Feedback {
 
     private String message;
 
+    public Feedback(String email, String message) {
+        this.email = email;
+        this.message = message;
+    }
 }

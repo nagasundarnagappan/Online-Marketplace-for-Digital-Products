@@ -1,11 +1,16 @@
 import axios from "axios";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Redux/AccountSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Feedback() {
+    const navigate = useNavigate();
 
     const [feedback, setFeedback] = useState({
         email: "",
-        message: ""
+        message: "",
+        accessToken: ""
     });
 
     const handleChange = (e: any) => {
@@ -15,15 +20,20 @@ export default function Feedback() {
         });
     }
 
+    const user = useSelector(selectUser);
+
     const handleSubmit = async (e: any) => {
         e.preventDefault();
 
         console.log(feedback);
 
+        feedback.accessToken = user.accessToken;
+
         const res = await axios.post("http://localhost:8090/feedback/add", feedback);
 
         if (res.data) {
             alert("Feedback submitted successfully!");
+            navigate("/");
         } else {
             alert("Feedback submission failed!");
         }
