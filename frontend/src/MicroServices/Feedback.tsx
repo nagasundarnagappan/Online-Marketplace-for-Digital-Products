@@ -8,15 +8,17 @@ export default function Feedback() {
         message: ""
     });
 
-    const handleChange = (e) => {
+    const handleChange = (e: any) => {
         setFeedback({
             ...feedback,
             [e.target.name]: e.target.value
         });
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: any) => {
         e.preventDefault();
+
+        console.log(feedback);
 
         const res = await axios.post("http://localhost:8090/feedback/add", feedback);
 
@@ -52,7 +54,7 @@ export default function Feedback() {
                                                 <label className="block uppercase text-gray-700 text-xs font-bold mb-2" htmlFor="message">
                                                     Message
                                                 </label>
-                                                <textarea name="feedback" id="feedback" onChange={handleChange} className="border-0 px-3 py-3 bg-gray-300 placeholder-black text-gray-800 rounded text-sm shadow focus:outline-none w-full" placeholder="" required></textarea>
+                                                <textarea name="message" id="message" onChange={handleChange} className="border-0 px-3 py-3 bg-gray-300 placeholder-black text-gray-800 rounded text-sm shadow focus:outline-none w-full" placeholder="" required></textarea>
                                             </div>
                                             <div className="text-center mt-6">
                                                 <button id="feedbackBtn"

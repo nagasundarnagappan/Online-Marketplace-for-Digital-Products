@@ -1,6 +1,8 @@
 package com.miniproject.onlinemarketplace.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.miniproject.onlinemarketplace.models.Seller;
@@ -13,11 +15,13 @@ public class SellerService {
     SellerRepo sellerRepo;
 
     public boolean sellerSignup(Seller seller) {
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        seller.setPassword(passwordEncoder.encode(seller.getPassword()));
         return sellerRepo.save(seller) != null;
     }
 
     public int[] sellerLogin(Seller seller) {
-        Seller sellerFromDb = sellerRepo.findByEmail(seller.getEmail());
+        Seller sellerFromDb = sellerRepo.findByEmail(seller.getEmail()).orElse(null);
 
         if (sellerFromDb == null) {
             return new int[] { 1, -1 };
@@ -32,5 +36,10 @@ public class SellerService {
 
     public Seller getSellerById(int id) {
         return sellerRepo.findById(id).get();
+    }
+
+    public Seller getSellerByEmail(String email) {
+        System.out.println(email);
+        return sellerRepo.findByEmail(email).orElse(null);
     }
 }

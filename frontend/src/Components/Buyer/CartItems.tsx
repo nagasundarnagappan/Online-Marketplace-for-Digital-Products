@@ -1,12 +1,21 @@
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../Redux/AccountSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function CartItems(props: any) {
+    const user = useSelector(selectUser);
+    const navigate = useNavigate();
 
     const removeProduct = async () => {
         let productId = props.props.productId;
-        await axios.get(`http://localhost:8080/removeProductFromCart/${window.localStorage.getItem("id")}/${productId}`);
-        window.location.reload();
+        await axios.get(`http://localhost:8080/removeProductFromCart/${user.id}/${productId}`, config);
+        navigate("/reduxwhy");
     }
+
+    const config = {
+        headers: { Authorization: `Bearer ${user.accessToken}` }
+    };
 
     return (
         <>

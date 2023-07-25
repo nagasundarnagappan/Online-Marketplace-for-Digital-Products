@@ -13,7 +13,7 @@ import com.miniproject.onlinemarketplace.services.SellerService;
 import com.miniproject.onlinemarketplace.utility.LoginResponse;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class SellerController {
 
     @Autowired
@@ -22,12 +22,10 @@ public class SellerController {
     @PostMapping("/seller/login")
     public LoginResponse sellerLogin(@RequestBody Seller seller) {
         int res[] = sellerService.sellerLogin(seller);
-        if (res[0] == 1) {
-            return new LoginResponse(false, "Seller not found", -1);
-        } else if (res[0] == 2) {
-            return new LoginResponse(false, "Incorrect password", -1);
+        if (res[0] == 1 || res[0] == 2) {
+            return new LoginResponse(false, "Bad Credentials", -1, "");
         } else {
-            return new LoginResponse(true, "Login successful!", res[1]);
+            return new LoginResponse(true, "Login successful!", res[1], "");
         }
     }
 

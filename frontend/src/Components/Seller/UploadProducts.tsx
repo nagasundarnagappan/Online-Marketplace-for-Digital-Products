@@ -2,8 +2,19 @@ import { useState } from "react";
 import axios from "axios";
 import 'firebase/storage';
 import Navbar from "../Navbar";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../Redux/AccountSlice";
 
 export default function UploadProducts(): any {
+
+    const navigate = useNavigate();
+
+    const user = useSelector(selectUser);
+
+    const config = {
+        headers: { Authorization: `Bearer ${user.accessToken}` }
+    };
 
     const [data, setData] = useState({
         name: "",
@@ -36,14 +47,14 @@ export default function UploadProducts(): any {
             category: data.category,
             // fileLocation: `https://mini-project-64.s3.ap-south-1.amazonaws.com/${data.name}.jpg`,
             fileLocation: "../assets/img/placeholder.jpg",
-            sellerId: window.localStorage.getItem("id")
+            sellerId: user.id
         }
 
-        let res = await axios.post("http://localhost:8080/product/add", post);
+        let res = await axios.post("http://localhost:8080/product/add", post, config);
 
         if (res.data) {
             alert("Product Added Successfully");
-            window.location.href = "/products";
+            navigate("/products");
         }
         else {
             alert("Product Addition Failed");

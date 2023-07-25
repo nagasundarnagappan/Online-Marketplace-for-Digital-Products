@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import Navbar from "../Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { saveProduct, selectUser } from "../../Redux/AccountSlice";
 
 export default function Profile() {
 
@@ -8,18 +11,20 @@ export default function Profile() {
     const [products, setProducts] = useState([]);
     const [isItalic, setIsItalic] = useState(false);
 
+    const user = useSelector(selectUser);
+
+    const config = {
+        headers: { Authorization: `Bearer ${user.accessToken}` }
+    };
+
     const getDetails = async () => {
-        const res = await axios.get(`http://localhost:8080/get${window.localStorage.getItem("type")}/${window.localStorage.getItem("id")}`);
+        const res = await axios.get(`http://localhost:8080/get${user.type}/${user.id}`, config);
         setDetails(res.data);
-        console.log(res.data);
-        console.log(details);
     }
 
     const getProducts = async () => {
-        const res = await axios.get(`http://localhost:8080/products/${window.localStorage.getItem("type")}/${window.localStorage.getItem("id")}`);
+        const res = await axios.get(`http://localhost:8080/products/${user.type}/${user.id}`, config);
         setProducts(res.data);
-        console.log(res.data);
-        console.log(details);
     }
 
     useEffect(() => {
@@ -93,10 +98,12 @@ export default function Profile() {
 }
 
 function TableRow(props: any) {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleView = () => {
-        window.localStorage.setItem("productId", props.props.productId);
-        window.location.href = "/product/view";
+        dispatch(saveProduct(props.props.productId));
+        navigate("/product/view");
     }
 
     return (

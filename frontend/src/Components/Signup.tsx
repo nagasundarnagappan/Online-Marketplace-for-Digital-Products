@@ -1,7 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup(): any {
+    const navigate = useNavigate();
 
     const [data, setData] = useState({
         type: "buyer",
@@ -44,11 +46,11 @@ export default function Signup(): any {
             password: data.password,
         }
 
-        let res = await axios.post(`http://localhost:8080/${data.type}/signup`, post);
+        let res = await axios.post(`http://localhost:8080/auth/${data.type}/signup`, post);
 
         if (res.data) {
             alert("Signup successful");
-            window.location.href = `/${data.type}Home`;
+            navigate("/login");
         }
         else {
             alert("Signup failed");

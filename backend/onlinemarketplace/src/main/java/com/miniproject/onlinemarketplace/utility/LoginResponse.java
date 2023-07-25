@@ -1,25 +1,17 @@
 package com.miniproject.onlinemarketplace.utility;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class LoginResponse {
     private boolean status;
     private String message;
     private int id;
-
-    public LoginResponse(boolean status, String message, int id) {
-        this.status = status;
-        this.message = message;
-        this.id = id;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public boolean getStatus() {
-        return status;
-    }
-
-    public int getId() {
-        return id;
-    }
+    private String accessToken;
 }

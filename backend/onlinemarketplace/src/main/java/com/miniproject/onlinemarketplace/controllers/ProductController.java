@@ -14,7 +14,7 @@ import com.miniproject.onlinemarketplace.models.Product;
 import com.miniproject.onlinemarketplace.services.ProductService;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProductController {
 
     @Autowired

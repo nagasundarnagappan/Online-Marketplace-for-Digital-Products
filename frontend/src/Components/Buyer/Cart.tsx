@@ -2,16 +2,27 @@ import { useEffect, useState } from "react";
 import CartItems from "./CartItems";
 import Navbar from "../Navbar";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../Redux/AccountSlice";
 
 export default function Cart() {
+    const navigate = useNavigate();
+
     const [list, setList] = useState([]);
-    const [subTotalPrice, setSubTotalPrice] = useState("");
-    const [discount, setDiscount] = useState("");
-    const [shipping, setShipping] = useState(50);
-    const [totalPrice, setTotalPrice] = useState("");
+    const [subTotalPrice, setSubTotalPrice] = useState(0.0);
+    const [discount, setDiscount] = useState(0.0);
+    const [taxes, setTaxes] = useState(0.0);
+    const [totalPrice, setTotalPrice] = useState(0.0);
+
+    const user = useSelector(selectUser);
+
+    const config = {
+        headers: { Authorization: `Bearer ${user.accessToken}` }
+    };
 
     const getProductIds = async () => {
-        let res = await axios.get(`http://localhost:8080/getAllProductInCart/${window.localStorage.getItem("id")}`);
+        let res = await axios.get(`http://localhost:8080/getAllProductInCart/${user.id}`, config);
         setList(res.data);
 
         let subTotal = 0;
@@ -19,13 +30,13 @@ export default function Cart() {
             subTotal += item.productPrice;
         });
 
-        setSubTotalPrice(subTotal.toFixed(2));
+        setSubTotalPrice(parseFloat(subTotal.toFixed(2)));
 
-        let discount = (subTotal * 0.1).toFixed(2);
-        setDiscount(discount);
+        setDiscount(parseFloat((subTotal * 0.1).toFixed(2)));
 
-        let total = (subTotal - discount + shipping).toFixed(2);
-        setTotalPrice(total);
+        setTaxes(parseFloat((subTotal * 0.05).toFixed(2)));
+
+        setTotalPrice(parseFloat(((subTotal - discount) + taxes).toFixed(2)));
     }
 
     useEffect(() => {
@@ -33,18 +44,18 @@ export default function Cart() {
     }, []);
 
     const handleClearCart = async () => {
-        let res = await axios.get(`http://localhost:8080/clearCart/${window.localStorage.getItem("id")}`);
+        let res = await axios.get(`http://localhost:8080/clearCart/${user.id}`, config);
         if (res.data) {
             alert("Cart Cleared Successfully");
-            window.location.reload();
+            navigate("/reduxwhy");
         }
     }
 
     const handleCheckout = async () => {
-        let res = await axios.get(`http://localhost:8080/checkout/${window.localStorage.getItem("id")}`);
+        let res = await axios.get(`http://localhost:8080/checkout/${user.id}`, config);
         if (res.data) {
             alert("Order Placed Successfully");
-            window.location.href = "/products";
+            navigate("/products");
         }
         else {
             alert("Something Went Wrong");
@@ -87,8 +98,8 @@ export default function Cart() {
                                         <p className="text-lg font-semibold text-gray-900">₹{discount}</p>
                                     </div>
                                     <div className="flex items-center justify-between">
-                                        <p className="text-gray-400">Shipping</p>
-                                        <p className="text-lg font-semibold text-gray-900">₹{shipping}</p>
+                                        <p className="text-gray-400">Taxes</p>
+                                        <p className="text-lg font-semibold text-gray-900">₹{taxes}</p>
                                     </div>
                                 </div>
                                 <div className="mt-6 flex items-center justify-between">

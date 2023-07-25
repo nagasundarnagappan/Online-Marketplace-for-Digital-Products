@@ -9,6 +9,7 @@ import Home from './Components/Home';
 import BuyerProfile from './Components/Buyer/Profile';
 import SellerProfile from './Components/Seller/Profile';
 import Feedback from './MicroServices/Feedback';
+import ReduxWhy from './Redux/ReduxWhy';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
         <Route path='/buyer/profile' element={<BuyerProfile />} />
         <Route path='/seller/profile' element={<SellerProfile />} />
         <Route path='/feedback' element={<Feedback />} />
+        <Route path='/reduxwhy' element={<ReduxWhy />} />
       </Routes>
     </BrowserRouter>
   )

@@ -2,10 +2,12 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from 'react-redux';
 import { saveDetails } from '../Redux/AccountSlice';
+import { useNavigate } from "react-router-dom";
 
 export default function Login(): any {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [data, setData] = useState({
         type: "buyer",
         email: "",
@@ -27,7 +29,7 @@ export default function Login(): any {
             password: data.password
         }
 
-        let res = await axios.post(`http://localhost:8080/${data.type}/login`, post);
+        let res = await axios.post(`http://localhost:8080/auth/${data.type}/login`, post);
 
         if (!(res.data.status)) {
             alert(res.data.message);
@@ -35,19 +37,19 @@ export default function Login(): any {
         }
 
         alert(res.data.message);
+        console.log(res.data);
+        console.log(res.data.accessToken);
 
         let reduxDetails = {
             type: data.type,
-            id: res.data.id
+            id: res.data.id,
+            accessToken: res.data.accessToken
         }
-
-        window.localStorage.setItem("type", data.type);
-        window.localStorage.setItem("id", res.data.id);
 
         console.log(reduxDetails);
         dispatch(saveDetails(reduxDetails));
 
-        window.location.href = `/`;
+        navigate("/");
     }
 
     return (

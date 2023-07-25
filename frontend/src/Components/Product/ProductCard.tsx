@@ -1,8 +1,14 @@
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { saveProduct } from "../../Redux/AccountSlice";
+
 export default function ProductCard(props: any) {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleClick = () => {
-        window.localStorage.setItem("productId", props.props.productId);
-        window.location.href = "./product/view";
+        dispatch(saveProduct(props.props.productId));
+        navigate("/product/view");
     }
 
     return (

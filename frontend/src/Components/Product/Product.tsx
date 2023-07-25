@@ -1,24 +1,32 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Navbar from "../Navbar";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectUser, selectProduct } from "../../Redux/AccountSlice";
 
 export default function Product() {
+    const navigate = useNavigate();
+
     const [details, setDetails] = useState({});
 
+    const user = useSelector(selectUser);
+    const product = useSelector(selectProduct);
+
+    const config = {
+        headers: { Authorization: `Bearer ${user.accessToken}` }
+    };
+
     const getDetails = async () => {
-        let id = window.localStorage.getItem("productId");
-        let res = await axios.get(`http://localhost:8080/product/${id}`)
+        let res = await axios.get(`http://localhost:8080/product/${product}`, config)
         setDetails(res.data);
-        console.log(res.data);
     }
 
     const addToCart = async () => {
-        let buyerId = window.localStorage.getItem("id");
-        let productId = window.localStorage.getItem("productId");
-        let res = await axios.get(`http://localhost:8080/addProductToCart/${buyerId}/${productId}`);
+        let res = await axios.get(`http://localhost:8080/addProductToCart/${user.id}/${product}`, config);
         if (res.data) {
             alert("Product Added to Cart Successfully");
-            window.location.href = "/buyer/cart";
+            navigate("/buyer/cart");
         }
         else {
             alert("Product Already in Cart");
@@ -27,7 +35,6 @@ export default function Product() {
 
     useEffect(() => {
         getDetails();
-        console.log(window.localStorage.getItem("id"));
     }, []);
 
     return (

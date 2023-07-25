@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import axios from "axios";
 import Navbar from "../Navbar";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../Redux/AccountSlice";
 
 export default function Products() {
 
@@ -11,8 +13,14 @@ export default function Products() {
         getProducts();
     }, []);
 
+    const user = useSelector(selectUser);
+
+    const config = {
+        headers: { Authorization: `Bearer ${user.accessToken}` }
+    };
+
     const getProducts = async () => {
-        let res = await axios.get("http://localhost:8080/products/all");
+        let res = await axios.get("http://localhost:8080/products/all", config);
         setList(res.data);
         console.log(res.data);
     }

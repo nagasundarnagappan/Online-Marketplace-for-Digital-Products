@@ -1,7 +1,18 @@
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { deleteDetails } from "../Redux/AccountSlice";
+import { useSelector } from "react-redux";
+import { selectUser } from "../Redux/AccountSlice";
+
 export default function Navbar() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const user = useSelector(selectUser);
 
     const handleLogout = () => {
-        window.localStorage.clear();
+        dispatch(deleteDetails());
+        navigate("/login");
     }
 
     return (
@@ -13,7 +24,7 @@ export default function Navbar() {
                 </a>
                 <div className="flex items-center md:order-2">
                     <button type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                        <a href={`/${window.localStorage.getItem("type")}/profile`}>
+                        <a onClick={() => { navigate(`/${user.type}/profile`) }}>
                             <img className="w-8 h-8 rounded-full" src="/assets/img/user.png" alt="user photo" />
                         </a>
                     </button>
@@ -27,27 +38,27 @@ export default function Navbar() {
                 <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
                     <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
-                            <a href="/" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</a>
+                            <a onClick={() => { navigate("/") }} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Home</a>
                         </li>
                         <li>
-                            <a href="/products" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Products</a>
+                            <a onClick={() => { navigate("/products") }} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Products</a>
                         </li>
                         {
-                            (window.localStorage.getItem("type") === "seller") ?
+                            (user.type === "seller") ?
                                 (
                                     <li>
-                                        <a href="/seller/upload" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Upload</a>
+                                        <a onClick={() => { navigate("/seller/upload") }} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Upload</a>
                                     </li>
                                 ) :
                                 (
                                     <li>
-                                        <a href="/buyer/cart" className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Cart</a>
+                                        <a onClick={() => { navigate("/buyer/cart") }} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Cart</a>
                                     </li>
                                 )
 
                         }
                         <li>
-                            <a href="/login" onClick={handleLogout} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Logout</a>
+                            <a onClick={handleLogout} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Logout</a>
                         </li>
                     </ul>
                 </div>
