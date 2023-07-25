@@ -11,3 +11,5 @@
 - Added the functionality to add, retrieve and delete the products in the cart
 - Created the frontend for cart, product view and product upload pages
 - Created the frontend for profiles
+- Added Spring Security
+- Implemented microservice architecture to get feedback
